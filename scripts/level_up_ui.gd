@@ -108,3 +108,4 @@ func animate_hide() -> void:
 	tween.tween_property(panel, "modulate:a", 0.0, 0.2)
 	tween.tween_property(panel, "scale", Vector2(0.9, 0.9), 0.2)
 	tween.tween_callback(func(): visible = false)
+

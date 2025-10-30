@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://dak7m3n8q2v5y"]
+[gd_scene load_steps=4 format=3 uid="uid://c9k7m3n8q2v5y"]
 
 [ext_resource type="Script" path="res://scripts/xp_gem.gd" id="1_xp_gem"]
 
