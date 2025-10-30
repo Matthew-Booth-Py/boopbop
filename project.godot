@@ -15,6 +15,11 @@ run/main_scene="res://scenes/main.tscn"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+UpgradeManager="*res://scripts/upgrade_manager.gd"
+GameManager="*res://scripts/game_manager.gd"
+
 [layer_names]
 
 3d_physics/layer_1="Player"
