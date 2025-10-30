@@ -7,6 +7,7 @@ extends CharacterBody3D
 var health: int = max_health
 var attack_cooldown: float = 1.0
 var attack_timer: float = 0.0
+var facing_direction: Vector3 = Vector3.FORWARD  # Track which way player is facing
 
 @onready var attack_area: Area3D = $AttackArea
 @onready var axe_visual: Node3D = $AxeVisual
@@ -32,6 +33,8 @@ func _physics_process(delta: float) -> void:
 	if direction:
 		velocity.x = direction.x * speed
 		velocity.z = direction.z * speed
+		# Update facing direction when moving
+		facing_direction = snap_to_45_degrees(direction)
 	else:
 		velocity.x = move_toward(velocity.x, 0, speed)
 		velocity.z = move_toward(velocity.z, 0, speed)
@@ -43,6 +46,17 @@ func _physics_process(delta: float) -> void:
 	if attack_timer <= 0:
 		perform_attack()
 		attack_timer = attack_cooldown
+
+func snap_to_45_degrees(direction: Vector3) -> Vector3:
+	# Calculate angle from direction
+	var angle: float = atan2(direction.x, direction.z)
+	
+	# Snap to nearest 45 degrees (PI/4 radians)
+	var snap_increment: float = PI / 4.0
+	var snapped_angle: float = round(angle / snap_increment) * snap_increment
+	
+	# Convert back to direction vector
+	return Vector3(sin(snapped_angle), 0, cos(snapped_angle)).normalized()
 
 func perform_attack() -> void:
 	if not attack_area:
@@ -62,19 +76,22 @@ func play_attack_animation() -> void:
 	if not axe_visual:
 		return
 	
+	# Calculate base rotation from facing direction
+	var base_angle: float = atan2(facing_direction.x, facing_direction.z)
+	
 	# Show the axe
 	axe_visual.visible = true
 	
-	# Reset rotation
-	axe_visual.rotation.y = -PI / 2  # Start position (-90 degrees)
+	# Start position: base angle minus 90 degrees (left side of swing)
+	axe_visual.rotation.y = base_angle - PI / 2
 	
 	# Create tween for swing animation
-	var tween := create_tween()
+	var tween: Tween = create_tween()
 	tween.set_ease(Tween.EASE_OUT)
 	tween.set_trans(Tween.TRANS_QUAD)
 	
-	# Swing from left to right (180 degree arc)
-	tween.tween_property(axe_visual, "rotation:y", PI / 2, 0.3)
+	# Swing from left to right relative to facing direction (180 degree arc)
+	tween.tween_property(axe_visual, "rotation:y", base_angle + PI / 2, 0.3)
 	
 	# Hide after animation completes
 	tween.tween_callback(func(): axe_visual.visible = false)
@@ -89,4 +106,3 @@ func take_damage(amount: int) -> void:
 func die() -> void:
 	print("Player died!")
 	queue_free()
-
