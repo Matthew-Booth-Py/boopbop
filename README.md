@@ -1,9 +1,280 @@
-# Viral RogueLite Game Research
+# Boopbop - 3D Pixelart Roguelite
 
-## Overview
-This document analyzes three successful recent roguelite games to understand what makes them viral and fun. The goal is to identify common patterns and mechanics that contribute to their success.
+**A viral roguelite game in development using Godot 4.5**
 
 ---
+
+## Table of Contents
+- [About the Project](#about-the-project)
+- [Development Journey](#development-journey)
+- [Current Implementation](#current-implementation)
+- [Technical Architecture](#technical-architecture)
+- [Design Decisions](#design-decisions)
+- [Research & Inspiration](#research--inspiration)
+- [Roadmap](#roadmap)
+
+---
+
+## About the Project
+
+Boopbop is a 3D pixelart roguelite game inspired by successful titles like Ball x Pit, Megabonk, and Vampire Survivors. The goal is to create a viral roguelite that combines:
+
+- **Simple, addictive core gameplay** - Easy to pick up, hard to master
+- **Auto-attack mechanics** - Focus on positioning and strategy over button mashing
+- **Top-down 3D perspective** - Clear view of action with modern 3D graphics
+- **Progressive difficulty** - Enemies that challenge without overwhelming
+- **Replayability** - Randomization and variety that keeps players coming back
+
+### Design Philosophy
+
+Drawing from research into viral roguelites, Boopbop is built on these principles:
+1. **Simple Core Mechanics, Deep Strategy** - WASD movement, auto-attacks
+2. **Short Run Times** - Quick sessions perfect for "just one more run"
+3. **Clear Visual Feedback** - Distinct colors and shapes for instant recognition
+4. **Power Fantasy** - Feel increasingly powerful as you progress
+5. **Accessibility** - Easy entry point with room for mastery
+
+---
+
+## Development Journey
+
+### Phase 1: Research & Planning ✅
+
+**Objective:** Understand what makes roguelites viral and successful
+
+**Process:**
+1. Analyzed three successful recent roguelites:
+   - Ball x Pit (300k+ sales in 5 days)
+   - Megabonk (117k concurrent players)
+   - Vampire Survivors (viral indie success)
+
+2. Identified common success elements:
+   - Simple controls with deep strategy
+   - Auto-attack or simplified combat systems
+   - High replayability through randomization
+   - Two-tier progression (within-run + meta)
+   - Clear visual feedback
+   - Content creator friendly
+
+3. Created comprehensive research document analyzing:
+   - Gameplay mechanics
+   - Why each game became popular
+   - Common patterns across successful titles
+   - Design principles to follow
+
+**Outcome:** Clear understanding of viral roguelite formula
+
+### Phase 2: Prototype Development ✅
+
+**Objective:** Create a minimal playable prototype to validate core mechanics
+
+**Implementation:**
+1. **Main Scene Setup**
+   - 3D world with proper lighting
+   - Top-down orthographic camera
+   - Ground plane with collision
+   - Environment configuration
+
+2. **Player Character**
+   - WASD movement controls
+   - Auto-attack system (1 second cooldown)
+   - Health system (100 HP)
+   - Area-based attack detection
+   - Blue capsule visual (easy to identify)
+
+3. **Enemy AI**
+   - Movement toward player
+   - Projectile shooting (2 second cooldown)
+   - Health system (30 HP)
+   - Red cube visual (threatening appearance)
+
+4. **Projectile System**
+   - Straight-line movement
+   - Collision detection with player
+   - Damage on hit (5 HP)
+   - Auto-destruction after timeout
+   - Glowing yellow visual (clear danger indicator)
+
+5. **Integration**
+   - Proper collision layer setup
+   - Scene instancing and management
+   - Main scene as game entry point
+
+**Technology Stack:**
+- Engine: Godot 4.5
+- Rendering: Forward Plus
+- Language: GDScript
+- Platform: Cross-platform (Mac, Windows, Linux)
+
+**Outcome:** Fully functional prototype with core gameplay loop
+
+---
+
+## Current Implementation
+
+### What's Playable Now
+
+The current prototype includes:
+
+#### Core Gameplay
+- ✅ Player-controlled warrior character
+- ✅ WASD/Arrow key movement
+- ✅ Auto-attacking axe swing (1s cooldown)
+- ✅ Enemy AI that chases player
+- ✅ Enemy projectile shooting
+- ✅ Damage system for both player and enemies
+- ✅ Health tracking and death states
+
+#### Visual & Technical
+- ✅ Top-down 3D camera perspective
+- ✅ Color-coded entities (Blue=Player, Red=Enemy, Yellow=Projectile)
+- ✅ Basic materials and lighting
+- ✅ Collision detection system
+- ✅ Organized scene/script architecture
+
+#### Game Feel
+- ✅ Smooth movement controls
+- ✅ Clear visual distinction between entities
+- ✅ Automatic combat (inspired by Vampire Survivors)
+- ✅ Enemy AI behavior
+- ✅ Projectile physics
+
+### How to Play
+
+1. Open project in Godot 4.5
+2. Press F5 or click Play
+3. Use WASD or Arrow Keys to move
+4. Stay near enemies to auto-attack them
+5. Avoid yellow projectile balls
+6. Survive as long as possible!
+
+---
+
+## Technical Architecture
+
+### File Structure
+
+```
+boopbop/
+├── README.md              # This file - project documentation
+├── GAME_SETUP.md          # Technical setup and testing guide
+├── project.godot          # Godot project configuration
+├── icon.svg               # Project icon
+│
+├── scenes/
+│   ├── main.tscn          # Main game scene (entry point)
+│   ├── player.tscn        # Player character scene
+│   ├── enemy.tscn         # Enemy character scene
+│   └── projectile.tscn    # Enemy projectile scene
+│
+└── scripts/
+    ├── player.gd          # Player movement and combat logic
+    ├── enemy.gd           # Enemy AI and shooting behavior
+    └── projectile.gd      # Projectile movement and collision
+```
+
+### Collision Layer Architecture
+
+Proper separation of collision layers for clean interaction:
+
+| Layer | Name | Purpose |
+|-------|------|---------|
+| 1 | Player | Player character collision |
+| 2 | Enemy | Enemy character collision |
+| 3 | Projectile | Enemy projectile collision |
+
+**Interaction Matrix:**
+- Player collides with: Enemy (Layer 2)
+- Enemy collides with: Player (Layer 1)
+- Projectile collides with: Player (Layer 1)
+
+### Scene Hierarchy
+
+```
+Main (Node3D)
+├── DirectionalLight3D (lighting with shadows)
+├── Camera3D (orthographic top-down)
+├── WorldEnvironment (ambient lighting)
+├── Ground (StaticBody3D with collision)
+├── Player (CharacterBody3D instance)
+│   ├── MeshInstance3D (visual)
+│   ├── CollisionShape3D (physics)
+│   └── AttackArea (Area3D for attack detection)
+└── Enemies (CharacterBody3D instances)
+    ├── MeshInstance3D (visual)
+    └── CollisionShape3D (physics)
+```
+
+---
+
+## Design Decisions
+
+### Why Auto-Attack?
+
+**Inspiration:** Vampire Survivors' success with auto-attack mechanics
+
+**Benefits:**
+- Reduces cognitive load - players focus on positioning
+- More accessible to casual players
+- Creates strategic depth through positioning choices
+- Mobile-friendly (potential future port)
+- Easier to balance and tune
+
+**Implementation:**
+- 1 second cooldown (quick but not overwhelming)
+- Area-based detection (rewards staying close to enemies)
+- Automatic targeting (no manual aiming needed)
+
+### Why Top-Down 3D?
+
+**Inspiration:** Megabonk's successful 3D implementation, traditional roguelite perspective
+
+**Benefits:**
+- Clear view of battlefield and threats
+- Familiar perspective from classic roguelites
+- Allows for 3D visual effects and polish
+- Easy to understand spatial relationships
+- Good for both single-player and potential co-op
+
+**Implementation:**
+- Orthographic camera (no perspective distortion)
+- 15 units above ground, slight angle
+- 20 unit view size (good balance of detail and scope)
+
+### Why WASD Controls?
+
+**Inspiration:** Universal control scheme from all researched games
+
+**Benefits:**
+- Industry standard for PC games
+- Intuitive for most players
+- Easy to learn (5 second onboarding)
+- Room to add additional controls later
+- Gamepad mapping straightforward
+
+**Implementation:**
+- Uses Godot's built-in ui_* input actions
+- Normalized diagonal movement (no speed advantage)
+- Immediate response (no acceleration delay)
+
+### Color Coding Strategy
+
+Visual clarity is crucial for fast-paced roguelites:
+
+- **Player (Blue):** Cool, friendly color
+- **Enemies (Red):** Hot, threatening color  
+- **Projectiles (Yellow + Emission):** High-visibility danger indicator
+- **Ground (Green):** Neutral, doesn't compete for attention
+
+**Principle:** Player should instantly know what's friendly, what's dangerous, and what's environmental
+
+---
+
+## Research & Inspiration
+
+### Game Analysis Summary
+
+This project began with deep research into three viral roguelites:
 
 ## Game Analysis
 
@@ -346,15 +617,168 @@ Based on these games, successful viral roguelites often:
 
 ---
 
-## Next Steps
+## Roadmap
 
-1. **Prototype Core Mechanic:** Find your "one thing that's fun"
-2. **Add Randomization:** Make each run different
-3. **Test Replayability:** Would you play this 100 times?
-4. **Iterate on Feel:** Polish until it feels great
-5. **Add Progression:** Both short-term and long-term
-6. **Build Community:** Engage players and content creators
+### ✅ Phase 1: Research (Completed)
+- Market research and analysis
+- Identification of success patterns
+- Design principle documentation
 
-Good luck creating your viral roguelite!
+### ✅ Phase 2: Prototype (Completed)
+- Basic player movement
+- Auto-attack system
+- Enemy AI
+- Projectile system
+- Core gameplay loop
 
-# boopbop
+### 🔄 Phase 3: Core Enhancement (Current)
+
+**Priority Features:**
+1. **Visual Feedback**
+   - Attack animations or effects
+   - Damage numbers floating text
+   - Hit feedback (screen shake, particle effects)
+   - Enemy death effects
+
+2. **UI System**
+   - Health bar display
+   - Kill counter
+   - Time survived counter
+   - Simple game over screen
+   - Restart functionality
+
+3. **Game Feel**
+   - Camera shake on damage
+   - Particle effects for attacks
+   - Sound effects (hits, attacks, deaths)
+   - Background music
+
+### 📋 Phase 4: Progression Systems
+
+**Within-Run Progression:**
+- Experience gain from kills
+- Level-up system
+- Upgrade choices (Vampire Survivors-style)
+- Multiple weapon types
+- Passive item pickups
+
+**Meta-Progression:**
+- Persistent unlocks between runs
+- New character types
+- Permanent stat upgrades
+- Achievement system
+
+### 📋 Phase 5: Content Expansion
+
+**Variety:**
+- 5-10 enemy types with unique behaviors
+- Boss enemies
+- Wave/arena system
+- Environmental hazards
+- Power-ups and pickups
+
+**Replayability:**
+- Procedural arena generation
+- Random enemy spawns
+- Multiple character classes
+- Daily challenges
+
+### 📋 Phase 6: Polish & Release
+
+**Polish:**
+- Pixel art shaders for 3D models
+- VFX polish pass
+- Audio design
+- UI/UX refinement
+- Balance tuning
+
+**Release Prep:**
+- Steam page setup
+- Trailer creation
+- Press kit
+- Community building
+- Content creator outreach
+
+### 📋 Phase 7: Post-Launch
+
+**Support:**
+- Bug fixes
+- Balance patches
+- Community feedback integration
+
+**Expansion:**
+- New characters
+- New enemies
+- New mechanics
+- Potential meta-progression layer (inspired by Ball x Pit)
+
+---
+
+## Development Principles
+
+Based on our research, we're following these principles:
+
+### 1. Playtest Early, Playtest Often
+- Prototype must be fun within first 30 seconds
+- If it's not fun at core, polish won't fix it
+- Get feedback from players outside your circle
+
+### 2. Iterate Quickly
+- Small, rapid changes over large features
+- Test one variable at a time
+- Be willing to cut features that don't work
+
+### 3. Focus on Feel
+- Game feel > feature list
+- Juicy feedback for every action
+- Polish the core before expanding
+
+### 4. Build for Virality
+- Content creator friendly features
+- Shareable moments
+- Clear, readable gameplay for streams
+- Potential for "broken" builds (discovery factor)
+
+### 5. Respect Player Time
+- Quick runs (target 5-15 minutes)
+- Fast restart after death
+- Clear progress indicators
+- No artificial padding
+
+---
+
+## Contributing
+
+Currently a solo project by Matthew Booth. Open to collaboration as development progresses!
+
+### Feedback Welcome
+If you playtest the prototype:
+- What felt good?
+- What felt frustrating?
+- Did you want to play again?
+- What would make it more fun?
+
+---
+
+## Credits
+
+**Development:** Matthew Booth  
+**Engine:** Godot 4.5  
+**Inspiration:** Ball x Pit, Megabonk, Vampire Survivors  
+
+---
+
+## License
+
+[To be determined]
+
+---
+
+## Contact
+
+[Contact information to be added]
+
+---
+
+*Last Updated: October 30, 2025*  
+*Project Status: Prototype Phase Complete*
