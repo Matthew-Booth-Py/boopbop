@@ -1,8 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://b6yqxvj8u7m2q"]
+[gd_scene load_steps=11 format=3 uid="uid://b6yqxvj8u7m2q"]
 
 [ext_resource type="PackedScene" uid="uid://c4j8k2m9p1x3r" path="res://scenes/player.tscn" id="1_player"]
+[ext_resource type="Script" path="res://scripts/camera_shake.gd" id="2_camera_shake"]
 [ext_resource type="PackedScene" uid="uid://jregyvqmn1nb" path="res://scenes/game_ui.tscn" id="3_game_ui"]
+[ext_resource type="PackedScene" uid="uid://b8m5n4p9r3x6z" path="res://scenes/level_up_ui.tscn" id="4_level_up_ui"]
 [ext_resource type="Script" path="res://scripts/enemy_spawner.gd" id="4_enemy_spawner"]
+[ext_resource type="PackedScene" uid="uid://d9m6n5p8q3x7w" path="res://scenes/game_over_ui.tscn" id="5_game_over_ui"]
 
 [sub_resource type="Environment" id="Environment_main"]
 background_mode = 1
@@ -29,6 +32,7 @@ shadow_enabled = true
 transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 15, 5)
 projection = 1
 size = 20.0
+script = ExtResource("2_camera_shake")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_main")
@@ -50,4 +54,9 @@ script = ExtResource("4_enemy_spawner")
 
 [node name="GameUI" parent="." instance=ExtResource("3_game_ui")]
 
+[node name="LevelUpUI" parent="." instance=ExtResource("4_level_up_ui")]
+
+[node name="GameOverUI" parent="." instance=ExtResource("5_game_over_ui")]
+
 [connection signal="health_changed" from="Player" to="GameUI" method="update_health"]
+[connection signal="xp_changed" from="Player" to="GameUI" method="update_xp"]

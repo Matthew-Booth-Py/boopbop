@@ -2,6 +2,8 @@ extends CanvasLayer
 
 @onready var health_bar: ProgressBar = $Container/HBoxContainer/HealthBox/HealthBar
 @onready var health_numbers: Label = $Container/HBoxContainer/HealthBox/HealthNumbers
+@onready var xp_bar: ProgressBar = $Container/HBoxContainer/HealthBox/XPBar
+@onready var level_label: Label = $Container/HBoxContainer/HealthBox/LevelLabel
 @onready var kills_label: Label = $Container/HBoxContainer/StatsBox/KillsLabel
 @onready var time_label: Label = $Container/HBoxContainer/StatsBox/TimeLabel
 
@@ -37,4 +39,12 @@ func update_time(seconds: float) -> void:
 		var minutes: int = int(seconds) / 60
 		var secs: int = int(seconds) % 60
 		time_label.text = "Time: %02d:%02d" % [minutes, secs]
+
+func update_xp(current: int, needed: int, level: int) -> void:
+	if xp_bar:
+		xp_bar.max_value = needed
+		xp_bar.value = current
+	
+	if level_label:
+		level_label.text = "Level %d" % level
 
