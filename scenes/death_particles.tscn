@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3 uid="uid://d7n2m8p4q9x3w"]
+
+[ext_resource type="Script" path="res://scripts/auto_free_particles.gd" id="1_auto_free"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_death"]
+albedo_color = Color(1, 0.2, 0.2, 1)
+emission_enabled = true
+emission = Color(1, 0, 0, 1)
+emission_energy_multiplier = 2.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_death"]
+material = SubResource("StandardMaterial3D_death")
+radius = 0.1
+height = 0.2
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_death"]
+emission_shape = 1
+emission_sphere_radius = 0.5
+particle_flag_disable_z = false
+direction = Vector3(0, 1, 0)
+spread = 180.0
+initial_velocity_min = 3.0
+initial_velocity_max = 6.0
+gravity = Vector3(0, -9.8, 0)
+scale_min = 0.5
+scale_max = 1.0
+
+[node name="DeathParticles" type="GPUParticles3D"]
+script = ExtResource("1_auto_free")
+emitting = true
+amount = 25
+lifetime = 0.8
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_death")
+draw_pass_1 = SubResource("SphereMesh_death")
+
