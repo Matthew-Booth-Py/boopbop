@@ -1,22 +1,22 @@
 [gd_scene load_steps=7 format=3 uid="uid://b6yqxvj8u7m2q"]
 
-[ext_resource type="PackedScene" uid="uid://c4j8k2m9p1x3r" path="res://scenes/player.tscn" id="1_player"]
-[ext_resource type="PackedScene" uid="uid://e5j7l9m2n8k6p" path="res://scenes/enemy.tscn" id="2_enemy"]
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_ground"]
-size = Vector2(50, 50)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ground"]
-albedo_color = Color(0.3, 0.5, 0.3, 1)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_ground"]
-size = Vector3(50, 0.1, 50)
+[ext_resource type="PackedScene" uid="uid://c4j8k2nap1x3r" path="res://scenes/player.tscn" id="1_player"]
+[ext_resource type="PackedScene" uid="uid://ba5c07ps31pfx" path="res://scenes/enemy.tscn" id="2_enemy"]
 
 [sub_resource type="Environment" id="Environment_main"]
 background_mode = 1
 background_color = Color(0.4, 0.5, 0.6, 1)
 ambient_light_source = 2
 ambient_light_color = Color(0.8, 0.8, 0.8, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ground"]
+albedo_color = Color(0.3, 0.5, 0.3, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ground"]
+size = Vector2(50, 50)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ground"]
+size = Vector3(50, 0.1, 50)
 
 [node name="Main" type="Node3D"]
 
@@ -35,6 +35,7 @@ environment = SubResource("Environment_main")
 [node name="Ground" type="StaticBody3D" parent="."]
 
 [node name="GroundMesh" type="MeshInstance3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5452747, -1.5815285, 2.3750048)
 material_override = SubResource("StandardMaterial3D_ground")
 mesh = SubResource("PlaneMesh_ground")
 
@@ -42,11 +43,9 @@ mesh = SubResource("PlaneMesh_ground")
 shape = SubResource("BoxShape3D_ground")
 
 [node name="Player" parent="." instance=ExtResource("1_player")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="Enemy" parent="." instance=ExtResource("2_enemy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 5)
 
 [node name="Enemy2" parent="." instance=ExtResource("2_enemy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -5)
-

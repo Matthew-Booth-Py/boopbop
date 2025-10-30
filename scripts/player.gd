@@ -9,6 +9,7 @@ var attack_cooldown: float = 1.0
 var attack_timer: float = 0.0
 
 @onready var attack_area: Area3D = $AttackArea
+@onready var axe_visual: Node3D = $AxeVisual
 
 func _ready() -> void:
 	# Set up collision layers
@@ -18,6 +19,10 @@ func _ready() -> void:
 	if attack_area:
 		attack_area.collision_layer = 0
 		attack_area.collision_mask = 2  # Can detect Layer 2: Enemy
+	
+	# Hide axe by default
+	if axe_visual:
+		axe_visual.visible = false
 
 func _physics_process(delta: float) -> void:
 	# Handle movement
@@ -43,12 +48,36 @@ func perform_attack() -> void:
 	if not attack_area:
 		return
 	
+	# Show and animate axe
+	play_attack_animation()
+	
 	# Get all enemies in attack range
 	var enemies := attack_area.get_overlapping_bodies()
 	for enemy in enemies:
 		if enemy.has_method("take_damage"):
 			enemy.take_damage(attack_damage)
 			print("Player attacked enemy for ", attack_damage, " damage")
+
+func play_attack_animation() -> void:
+	if not axe_visual:
+		return
+	
+	# Show the axe
+	axe_visual.visible = true
+	
+	# Reset rotation
+	axe_visual.rotation.y = -PI / 2  # Start position (-90 degrees)
+	
+	# Create tween for swing animation
+	var tween := create_tween()
+	tween.set_ease(Tween.EASE_OUT)
+	tween.set_trans(Tween.TRANS_QUAD)
+	
+	# Swing from left to right (180 degree arc)
+	tween.tween_property(axe_visual, "rotation:y", PI / 2, 0.3)
+	
+	# Hide after animation completes
+	tween.tween_callback(func(): axe_visual.visible = false)
 
 func take_damage(amount: int) -> void:
 	health -= amount
