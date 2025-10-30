@@ -6,7 +6,6 @@ signal upgrade_selected
 @onready var title_label: Label = $Panel/VBoxContainer/TitleLabel
 @onready var upgrade_container: HBoxContainer = $Panel/VBoxContainer/UpgradeContainer
 
-var upgrade_button_scene: PackedScene = preload("res://scenes/upgrade_button.tscn")
 var current_upgrades: Array = []
 var player: Node = null
 
@@ -108,4 +107,3 @@ func animate_hide() -> void:
 	tween.tween_property(panel, "modulate:a", 0.0, 0.2)
 	tween.tween_property(panel, "scale", Vector2(0.9, 0.9), 0.2)
 	tween.tween_callback(func(): visible = false)
-
