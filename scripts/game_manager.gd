@@ -123,4 +123,3 @@ func get_high_scores() -> Dictionary:
 		"time": high_score_time,
 		"level": high_score_level
 	}
-
