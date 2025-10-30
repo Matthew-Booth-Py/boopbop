@@ -633,25 +633,40 @@ Based on these games, successful viral roguelites often:
 
 ### 🔄 Phase 3: Core Enhancement (Current)
 
-**Priority Features:**
-1. **Visual Feedback**
-   - Attack animations or effects
-   - Damage numbers floating text
-   - Hit feedback (screen shake, particle effects)
-   - Enemy death effects
+**Completed:**
+- ✅ Health bar display
+- ✅ Kill counter  
+- ✅ Time survived counter
+- ✅ Directional axe attacks
+- ✅ Visual axe swing indicator
 
-2. **UI System**
-   - Health bar display
-   - Kill counter
-   - Time survived counter
-   - Simple game over screen
-   - Restart functionality
+**In Progress:**
+- 🔄 Enemy spawning system
 
-3. **Game Feel**
-   - Camera shake on damage
-   - Particle effects for attacks
-   - Sound effects (hits, attacks, deaths)
+**Backlog (Priority Order):**
+1. **Experience & Level-Up System** (Vampire Survivors-style)
+   - Enemy drops XP gems
+   - Collect gems to level up
+   - Choose from 3 random upgrades on level-up
+   - Multiple weapon types
+   - Stat upgrades (speed, damage, health)
+   - Passive items
+
+2. **Visual Feedback & Polish**
+   - Particle effects on enemy death
+   - Particle effects on player hits
+   - Screen shake when damaged
+   - Floating damage numbers
+   - Hit flash effects
+   - Sound effects (hits, deaths, attacks)
    - Background music
+
+3. **Game Over & Restart System**
+   - Death screen when health reaches 0
+   - Display final stats (kills, time survived)
+   - High score tracking
+   - Restart button
+   - Return to menu option
 
 ### 📋 Phase 4: Progression Systems
 
