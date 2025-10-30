@@ -1,5 +1,7 @@
 extends CharacterBody3D
 
+signal health_changed(current: int, maximum: int)
+
 @export var speed: float = 5.0
 @export var attack_damage: int = 10
 @export var max_health: int = 100
@@ -24,6 +26,9 @@ func _ready() -> void:
 	# Hide axe by default
 	if axe_visual:
 		axe_visual.visible = false
+	
+	# Emit initial health
+	health_changed.emit(health, max_health)
 
 func _physics_process(delta: float) -> void:
 	# Handle movement
@@ -98,7 +103,11 @@ func play_attack_animation() -> void:
 
 func take_damage(amount: int) -> void:
 	health -= amount
+	health = max(0, health)  # Clamp to 0
 	print("Player took ", amount, " damage. Health: ", health)
+	
+	# Emit health change signal
+	health_changed.emit(health, max_health)
 	
 	if health <= 0:
 		die()

@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://b6yqxvj8u7m2q"]
+[gd_scene load_steps=8 format=3 uid="uid://b6yqxvj8u7m2q"]
 
-[ext_resource type="PackedScene" uid="uid://c4j8k2nap1x3r" path="res://scenes/player.tscn" id="1_player"]
-[ext_resource type="PackedScene" uid="uid://ba5c07ps31pfx" path="res://scenes/enemy.tscn" id="2_enemy"]
+[ext_resource type="PackedScene" uid="uid://c4j8k2m9p1x3r" path="res://scenes/player.tscn" id="1_player"]
+[ext_resource type="PackedScene" uid="uid://e5j7l9m2n8k6p" path="res://scenes/enemy.tscn" id="2_enemy"]
+[ext_resource type="PackedScene" uid="uid://h9k4m3p8q2r5t" path="res://scenes/game_ui.tscn" id="3_game_ui"]
 
 [sub_resource type="Environment" id="Environment_main"]
 background_mode = 1
@@ -49,3 +50,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 5)
 
 [node name="Enemy2" parent="." instance=ExtResource("2_enemy")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -5)
+
+[node name="GameUI" parent="." instance=ExtResource("3_game_ui")]
+
+[connection signal="health_changed" from="Player" to="GameUI" method="update_health"]
+[connection signal="enemy_died" from="Enemy" to="GameUI" method="increment_kills"]
+[connection signal="enemy_died" from="Enemy2" to="GameUI" method="increment_kills"]

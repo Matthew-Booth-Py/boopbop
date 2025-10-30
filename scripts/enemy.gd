@@ -1,5 +1,7 @@
 extends CharacterBody3D
 
+signal enemy_died
+
 @export var speed: float = 2.0
 @export var max_health: int = 30
 @export var shoot_cooldown: float = 2.0
@@ -70,5 +72,6 @@ func take_damage(amount: int) -> void:
 
 func die() -> void:
 	print("Enemy died!")
+	enemy_died.emit()
 	queue_free()
 
